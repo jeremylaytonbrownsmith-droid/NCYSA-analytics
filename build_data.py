@@ -57,17 +57,60 @@ def collect_daily_series():
 
 
 def collect_zip_counts():
-    r = g.run(["customEvent:search_zip"], ["eventCount"], dim_filter=g.event_filter("zip_search"))
-    all_zips = {}
+    # One query gets both searches (eventCount) and distinct users (totalUsers)
+    # per ZIP; the per-zip totalUsers value IS safe here since each row is its
+    # own independent dimension value (no merging across rows involved).
+    r = g.run(["customEvent:search_zip"], ["eventCount", "totalUsers"], dim_filter=g.event_filter("zip_search"))
+    all_zips, detail = {}, {}
     for row in r.rows:
         z = row.dimension_values[0].value
-        c = int(row.metric_values[0].value)
         if not g.is_valid_zip(z):
             continue
+        c = int(row.metric_values[0].value)
+        u = int(row.metric_values[1].value)
         all_zips[z] = all_zips.get(z, 0) + c
+        prev = detail.get(z, {"searches": 0, "users": 0})
+        detail[z] = {"searches": prev["searches"] + c, "users": prev["users"] + u, "nc": g.is_nc_zip(z)}
     nc_zips = {z: c for z, c in all_zips.items() if g.is_nc_zip(z)}
     data["zip_counts_all"] = all_zips
     data["zip_counts_nc"] = nc_zips
+    data["zip_detail"] = detail
+
+
+def collect_nearest_club():
+    # Which club GA4 returned as nearest, across ALL zip_search events (not
+    # scoped to the click window) -- and separately, distance to that club in
+    # miles, bucketed by the tracked value. Both come from customEvent params
+    # on the zip_search event itself, confirmed via GA4 property metadata.
+    r = g.run(["customEvent:nearest_club_name"], ["eventCount", "totalUsers"], dim_filter=g.event_filter("zip_search"))
+    clubs = {}
+    for row in r.rows:
+        name = row.dimension_values[0].value
+        if name in ("(not set)", "", None):
+            continue
+        clubs[name] = {
+            "events": int(row.metric_values[0].value),
+            "users": int(row.metric_values[1].value),
+        }
+    data["nearest_club"] = clubs
+
+    r2 = g.run(["customEvent:nearest_club_distance_miles"], ["eventCount", "totalUsers"], dim_filter=g.event_filter("zip_search"))
+    distances = []
+    for row in r2.rows:
+        val = row.dimension_values[0].value
+        if val in ("(not set)", "", None):
+            continue
+        try:
+            miles = float(val)
+        except ValueError:
+            continue
+        distances.append({
+            "miles": miles,
+            "events": int(row.metric_values[0].value),
+            "users": int(row.metric_values[1].value),
+        })
+    distances.sort(key=lambda d: d["miles"])
+    data["nearest_club_distance"] = distances
 
 
 def collect_club_click_full():
@@ -76,115 +119,234 @@ def collect_club_click_full():
     r_search = g.run(["eventName"], ["eventCount"], start=start, dim_filter=g.event_filter("zip_search"))
     searches_in_window = int(r_search.rows[0].metric_values[0].value) if r_search.rows else 0
 
-    r_clicks = g.run(["eventName"], ["eventCount"], start=start, dim_filter=g.event_filter("club_click"))
-    total_clicks = int(r_clicks.rows[0].metric_values[0].value) if r_clicks.rows else 0
+    # Aggregate clicks + TRUE distinct users (single filtered row, not summed
+    # across a dimension breakdown -- see the totalUsers note elsewhere).
+    r_clicks = g.run(["eventName"], ["eventCount", "totalUsers"], start=start, dim_filter=g.event_filter("club_click"))
+    if r_clicks.rows:
+        total_clicks = int(r_clicks.rows[0].metric_values[0].value)
+        total_click_users = int(r_clicks.rows[0].metric_values[1].value)
+    else:
+        total_clicks = total_click_users = 0
 
-    r_names = g.run(["customEvent:club_name"], ["eventCount"], start=start, dim_filter=g.event_filter("club_click"))
-    club_counts = {}
+    r_names = g.run(["customEvent:club_name"], ["eventCount", "totalUsers"], start=start, dim_filter=g.event_filter("club_click"))
+    club_counts, club_detail = {}, {}
     for row in r_names.rows:
         name = row.dimension_values[0].value
         if name in ("(not set)", "", None):
             continue
-        club_counts[name] = club_counts.get(name, 0) + int(row.metric_values[0].value)
+        c = int(row.metric_values[0].value)
+        u = int(row.metric_values[1].value)
+        club_counts[name] = club_counts.get(name, 0) + c
+        club_detail[name] = {"clicks": club_counts[name], "users": u}
 
     r_rank = g.run(["customEvent:club_rank"], ["eventCount"], start=start, dim_filter=g.event_filter("club_click"))
     rank_total, rank1 = 0, 0
+    rank_detail = {}
     for row in r_rank.rows:
+        val = row.dimension_values[0].value
         c = int(row.metric_values[0].value)
         rank_total += c
-        if row.dimension_values[0].value == "1":
+        if val == "1":
             rank1 += c
+        try:
+            rank_detail[int(val)] = c
+        except (TypeError, ValueError):
+            pass  # "(not set)" or similar -- excluded from the rank table
 
-    r_action = g.run(["customEvent:click_action"], ["eventCount"], start=start, dim_filter=g.event_filter("club_click"))
+    r_action = g.run(["customEvent:click_action"], ["eventCount", "totalUsers"], start=start, dim_filter=g.event_filter("club_click"))
     action_total, website = 0, 0
+    action_detail = {}
     for row in r_action.rows:
+        val = row.dimension_values[0].value or "(not set)"
         c = int(row.metric_values[0].value)
+        u = int(row.metric_values[1].value)
         action_total += c
-        if row.dimension_values[0].value == "website":
+        if val == "website":
             website += c
+        action_detail[val] = {"clicks": c, "users": u}
 
     data["club_click"] = {
         "searches_in_window": searches_in_window,
         "total_clicks": total_clicks,
+        "total_click_users": total_click_users,
         "club_counts": club_counts,
+        "club_detail": club_detail,
         "distinct_clubs": len(club_counts),
         "rank1_share_pct": round(100.0 * rank1 / rank_total, 1) if rank_total else 0.0,
+        "rank1_clicks": rank1,
+        "rank_detail": {str(k): v for k, v in sorted(rank_detail.items())},
         "website_share_pct": round(100.0 * website / action_total, 1) if action_total else 0.0,
+        "action_detail": action_detail,
         "window_start": start,
     }
+
+
+def collect_click_zips():
+    # Which ZIP the family searched from, among club_click events (i.e. where
+    # clicking families are located), not to be confused with zip_counts_*
+    # (all searches, click or not).
+    start = g.CLICK_START
+    r = g.run(["customEvent:search_zip"], ["eventCount", "totalUsers"], start=start, dim_filter=g.event_filter("club_click"))
+    detail = {}
+    for row in r.rows:
+        z = row.dimension_values[0].value
+        if not g.is_valid_zip(z):
+            continue
+        c = int(row.metric_values[0].value)
+        u = int(row.metric_values[1].value)
+        prev = detail.get(z, {"clicks": 0, "users": 0})
+        detail[z] = {"clicks": prev["clicks"] + c, "users": prev["users"] + u, "nc": g.is_nc_zip(z)}
+    data["click_zips"] = detail
 
 
 def collect_coverage_gap_full():
     r = g.run(["customEvent:search_zip"], ["eventCount"], dim_filter=g.event_filter("coverage_gap"))
     total, nc_total = 0, 0
     nc_zips = set()
+    zip_detail = {}
     for row in r.rows:
         z = row.dimension_values[0].value
         c = int(row.metric_values[0].value)
+        # Malformed zip strings still represent real coverage_gap events --
+        # only exclude them from the per-zip breakdown table, not the total
+        # (matches ga_pull.py's collect_coverage_gap(), so both scripts agree
+        # on the headline event count).
         total += c
-        if g.is_nc_zip(z):
+        if not g.is_valid_zip(z):
+            continue
+        is_nc = g.is_nc_zip(z)
+        if is_nc:
             nc_total += c
             nc_zips.add(z)
+        zip_detail[z] = {"events": zip_detail.get(z, {"events": 0})["events"] + c, "nc": is_nc}
+
+    # Nearest club shown / distance to it, scoped to coverage_gap events
+    # specifically (a coverage gap still has a "nearest" club -- it's just
+    # further than the 40mi cutoff).
+    r_club = g.run(["customEvent:nearest_club_name"], ["eventCount", "totalUsers"], dim_filter=g.event_filter("coverage_gap"))
+    gap_clubs = {}
+    for row in r_club.rows:
+        name = row.dimension_values[0].value
+        if name in ("(not set)", "", None):
+            continue
+        gap_clubs[name] = {"events": int(row.metric_values[0].value), "users": int(row.metric_values[1].value)}
+
+    r_dist = g.run(["customEvent:nearest_club_distance_miles"], ["eventCount", "totalUsers"], dim_filter=g.event_filter("coverage_gap"))
+    gap_distances = []
+    for row in r_dist.rows:
+        val = row.dimension_values[0].value
+        if val in ("(not set)", "", None):
+            continue
+        try:
+            miles = float(val)
+        except ValueError:
+            continue
+        gap_distances.append({"miles": miles, "events": int(row.metric_values[0].value), "users": int(row.metric_values[1].value)})
+    gap_distances.sort(key=lambda d: d["miles"])
+
     data["coverage_gap"] = {
         "total": total,
         "nc_total": nc_total,
         "nc_distinct_zips": len(nc_zips),
+        "zip_detail": zip_detail,
+        "nearest_club": gap_clubs,
+        "nearest_club_distance": gap_distances,
     }
 
 
 def collect_channels_full():
-    r = g.run(["sessionDefaultChannelGroup"], ["sessions", "engagementRate", "keyEvents"])
+    r = g.run(["sessionDefaultChannelGroup"],
+              ["sessions", "engagedSessions", "engagementRate", "keyEvents", "sessionKeyEventRate",
+               "userEngagementDuration"])
     channels = {}
     for row in r.rows:
         ch = row.dimension_values[0].value
+        sessions = int(row.metric_values[0].value)
+        engagement_duration = float(row.metric_values[5].value)
         channels[ch] = {
-            "sessions": int(row.metric_values[0].value),
-            "engagement_pct": round(100.0 * float(row.metric_values[1].value), 0),
-            "key_events": int(float(row.metric_values[2].value)),
+            "sessions": sessions,
+            "engaged_sessions": int(row.metric_values[1].value),
+            "engagement_pct": round(100.0 * float(row.metric_values[2].value), 0),
+            "key_events": int(float(row.metric_values[3].value)),
+            "session_key_event_rate_pct": round(100.0 * float(row.metric_values[4].value), 0),
+            "avg_engagement_sec": round(engagement_duration / sessions, 1) if sessions else 0.0,
         }
     data["channels"] = channels
 
 
-def collect_campaign_full():
-    r = g.run(["sessionCampaignName"], ["sessions", "keyEvents"])
+def collect_first_user_channels():
+    # Base row per channel: total users / event count / key events, scoped by
+    # FIRST-TOUCH channel (where a user originally came from), not session
+    # channel. New/returning split needs a second query (see below) --
+    # totalUsers under a newVsReturning breakdown is not the same denominator
+    # as a plain per-channel totalUsers subtraction.
+    r = g.run(["firstUserDefaultChannelGroup"], ["totalUsers", "eventCount", "keyEvents"])
+    channels = {}
     for row in r.rows:
-        if row.dimension_values[0].value == g.CAMPAIGN:
+        ch = row.dimension_values[0].value
+        channels[ch] = {
+            "total_users": int(row.metric_values[0].value),
+            "new_users": 0,
+            "returning_users": 0,
+            "event_count": int(row.metric_values[1].value),
+            "key_events": int(float(row.metric_values[2].value)),
+        }
+    r2 = g.run(["firstUserDefaultChannelGroup", "newVsReturning"], ["totalUsers"])
+    for row in r2.rows:
+        ch = row.dimension_values[0].value
+        bucket = row.dimension_values[1].value
+        if ch not in channels:
+            continue
+        u = int(row.metric_values[0].value)
+        if bucket == "new":
+            channels[ch]["new_users"] = u
+        elif bucket == "returning":
+            channels[ch]["returning_users"] = u
+    data["first_user_channels"] = channels
+
+
+def collect_campaign_full():
+    r = g.run(["sessionCampaignName"], ["sessions", "engagementRate", "keyEvents"])
+    campaigns = {}
+    for row in r.rows:
+        name = row.dimension_values[0].value
+        campaigns[name] = {
+            "sessions": int(row.metric_values[0].value),
+            "engagement_pct": round(100.0 * float(row.metric_values[1].value), 0),
+            "key_events": int(float(row.metric_values[2].value)),
+        }
+        if name == g.CAMPAIGN:
             data["campaign"] = {
                 "sessions": int(row.metric_values[0].value),
-                "key_events": int(float(row.metric_values[1].value)),
+                "key_events": int(float(row.metric_values[2].value)),
             }
+    data["campaigns_full"] = campaigns
 
 
 def collect_page_rank():
-    from google.analytics.data_v1beta.types import Filter as _Filter, FilterExpression as _FE
-
+    # Exact match on "/find-my-club/" only -- see the note on ga_pull.py's
+    # collect_fmc_page(). Case/prefix variants ("/Find-My-Club/",
+    # "/ncsoccer/find-my-club/", the legacy "/find-your-ncysa-club/") are
+    # real distinct rows and stay out of both the ranking and the official
+    # total, exactly like the board report's own workbook export treats them.
     r = g.run(["pagePath"], ["screenPageViews", "totalUsers", "keyEvents"])
     pages = {}
+    all_rows = []  # for top_pages / fmc_variants below
     for row in r.rows:
         path = row.dimension_values[0].value or ""
-        if "find-my-club" in path.lower():
-            continue  # merged below via a server-side filtered aggregate
-        pages[path] = {
-            "views": int(row.metric_values[0].value),
-            "users": int(row.metric_values[1].value),
-            "kev": int(float(row.metric_values[2].value)),
-        }
+        views = int(row.metric_values[0].value)
+        users = int(row.metric_values[1].value)
+        kev = int(float(row.metric_values[2].value))
+        all_rows.append({"path": path, "views": views, "users": users, "kev": kev})
+        if path == "/find-my-club/":
+            continue  # this is the FMC row itself; included below by exact key
+        pages[path] = {"views": views, "users": users, "kev": kev}
 
-    # totalUsers is a distinct-user count per row and is NOT safely additive
-    # across dimension rows (a visitor to two URL variants would be double
-    # counted). Get the FMC merge as one server-side aggregate instead.
-    fmc_filter = _FE(filter=_Filter(
-        field_name="pagePath",
-        string_filter=_Filter.StringFilter(value="find-my-club", match_type=_Filter.StringFilter.MatchType.CONTAINS),
-    ))
-    rf = g.run([], ["screenPageViews", "totalUsers", "keyEvents"], dim_filter=fmc_filter)
-    if rf.rows:
-        fmc_views = int(rf.rows[0].metric_values[0].value)
-        fmc_users = int(rf.rows[0].metric_values[1].value)
-        fmc_kev = int(float(rf.rows[0].metric_values[2].value))
-    else:
-        fmc_views = fmc_users = fmc_kev = 0
-    pages["__FMC__"] = {"views": fmc_views, "users": fmc_users, "kev": fmc_kev}
+    fmc_row = next((r_ for r_ in all_rows if r_["path"] == "/find-my-club/"), None)
+    fmc_views = fmc_row["views"] if fmc_row else 0
+    fmc_users = fmc_row["users"] if fmc_row else 0
+    fmc_kev = fmc_row["kev"] if fmc_row else 0
+    pages["/find-my-club/"] = {"views": fmc_views, "users": fmc_users, "kev": fmc_kev}
 
     def rank_of(key, metric):
         ordered = sorted(pages.items(), key=lambda kv: kv[1][metric], reverse=True)
@@ -197,10 +359,20 @@ def collect_page_rank():
         "views": fmc_views,
         "users": fmc_users,
         "key_events": fmc_kev,
-        "rank_by_views": rank_of("__FMC__", "views"),
-        "rank_by_users": rank_of("__FMC__", "users"),
-        "rank_by_key_events": rank_of("__FMC__", "kev"),
+        "rank_by_views": rank_of("/find-my-club/", "views"),
+        "rank_by_users": rank_of("/find-my-club/", "users"),
+        "rank_by_key_events": rank_of("/find-my-club/", "kev"),
     }
+
+    # Top 25 by views (raw individual paths, not merged) for the "Top Pages"
+    # workbook tab / docx table, and a separate breakdown of every URL
+    # variant that could plausibly be "Find My Club" (informational only).
+    top = sorted(all_rows, key=lambda r_: -r_["views"])[:25]
+    data["top_pages"] = [{"path": r_["path"], "views": r_["views"], "users": r_["users"], "kev": r_["kev"]} for r_ in top]
+    variants = [r_ for r_ in all_rows if "find-my-club" in r_["path"].lower() or "find-your" in r_["path"].lower()
+                or "find-a-ncysa" in r_["path"].lower() or "find-your-team" in r_["path"].lower()]
+    variants.sort(key=lambda r_: -r_["views"])
+    data["fmc_variants"] = [{"path": r_["path"], "views": r_["views"], "users": r_["users"]} for r_ in variants]
 
 
 def main():
@@ -226,9 +398,12 @@ def main():
     for name, fn in [
         ("daily_series", collect_daily_series),
         ("zip_counts", collect_zip_counts),
+        ("nearest_club", collect_nearest_club),
         ("club_click_full", collect_club_click_full),
+        ("click_zips", collect_click_zips),
         ("coverage_gap_full", collect_coverage_gap_full),
         ("channels_full", collect_channels_full),
+        ("first_user_channels", collect_first_user_channels),
         ("campaign_full", collect_campaign_full),
         ("page_rank", collect_page_rank),
     ]:

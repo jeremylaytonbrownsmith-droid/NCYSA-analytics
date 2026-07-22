@@ -154,14 +154,17 @@ def collect_zip_breakdown():
 
 
 def collect_fmc_page():
-    # Match the Find My Club page by path fragment. "find-your-ncysa-club" is a
-    # separate legacy page (0 key events, not the interactive tool) and must
-    # not be folded into this total.
+    # Exact match on the canonical path only. The board report's own workbook
+    # export (NCYSA-Find-My-Club-Data.xlsx, "Top Pages" tab) confirms this is
+    # the official definition: a "Find My Club page variants" sub-table lists
+    # "/find-my-club/" itself alongside case/prefix variants and legacy pages
+    # ("/find-your-ncysa-club/", "/Find-My-Club/", etc.) as separate rows that
+    # are NOT folded into the reported total.
     r = run(["pagePath"], ["screenPageViews", "keyEvents"])
     views, kev = 0, 0
     for row in r.rows:
-        path = (row.dimension_values[0].value or "").lower()
-        if "find-my-club" in path:
+        path = row.dimension_values[0].value or ""
+        if path == "/find-my-club/":
             views += int(row.metric_values[0].value)
             kev += int(float(row.metric_values[1].value))
     results["fmc_page_views"] = views
