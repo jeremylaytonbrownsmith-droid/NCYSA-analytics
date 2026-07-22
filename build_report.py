@@ -79,7 +79,18 @@ def month_range(start_iso, end_iso):
     return f"{MONTHS_FULL[s.month]} &ndash; {MONTHS_FULL[e.month]} {e.year}"
 
 
+# Informal/neighborhood labels that read better on the board report than the
+# zipcodes package's official USPS city name. Extend as needed -- only ZIPs
+# listed here are overridden, everything else uses the package's city as-is.
+ZIP_LABEL_OVERRIDES = {
+    "28277": "South Charlotte",
+    "27616": "NE Raleigh",
+}
+
+
 def zip_city(z):
+    if z in ZIP_LABEL_OVERRIDES:
+        return ZIP_LABEL_OVERRIDES[z]
     m = zipcodes.matching(z)
     return m[0]["city"] if m else z
 
