@@ -1,2 +1,3 @@
 google-analytics-data>=0.18
 requests>=2.31
+zipcodes>=3.0

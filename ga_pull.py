@@ -102,9 +102,17 @@ def event_filter(*names):
     ]))
 
 
-def is_nc_zip(z):
+def is_valid_zip(z):
     z = (z or "").strip()
-    return len(z) >= 2 and z[:2] in ("27", "28")
+    return len(z) == 5 and z.isdigit()
+
+
+def is_nc_zip(z):
+    # Require a proper 5-digit zip before checking the prefix: some search_zip
+    # values arrive with a stripped leading zero (e.g. "2720" for MA's 02720),
+    # and z[:2] == "27" on that malformed value would misclassify it as NC.
+    z = (z or "").strip()
+    return is_valid_zip(z) and z[:2] in ("27", "28")
 
 
 def safe(name, fn):
@@ -133,7 +141,7 @@ def collect_zip_breakdown():
     for row in r.rows:
         z = row.dimension_values[0].value
         c = int(row.metric_values[0].value)
-        if z in ("(not set)", "", None):
+        if not is_valid_zip(z):
             continue
         zips.add(z)
         total += c

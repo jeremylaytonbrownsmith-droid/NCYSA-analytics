@@ -1,2 +1,5 @@
 key.json
 ga_results.json
+ga_report_data.json
+build/
+__pycache__/
