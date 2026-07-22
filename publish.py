@@ -98,12 +98,22 @@ def check_wp_error(resp):
 # ===========================================================================
 def media_test_upload():
     print("[1/3] Media pre-flight: tiny test upload to /wp/v2/media")
+    # Use a real (if minimal) .docx rather than a .txt: some WP setups
+    # restrict uploads to an allowlist of file types, and plain text isn't
+    # always on it even when Word/Excel are -- probing with a mismatched
+    # type would misreport a filetype restriction as an auth failure. This
+    # exercises the exact type we're about to actually upload.
+    import io
+    from docx import Document as _ProbeDocument
+    probe = _ProbeDocument()
+    probe.add_paragraph("NCYSA automation media-upload probe -- safe to delete.")
+    buf = io.BytesIO()
+    probe.save(buf)
     headers = {
-        "Content-Disposition": 'attachment; filename="ncysa-automation-probe.txt"',
-        "Content-Type": "text/plain",
+        "Content-Disposition": 'attachment; filename="ncysa-automation-probe.docx"',
+        "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     }
-    r = requests.post(MEDIA_API, headers=headers, data=b"NCYSA automation media-upload probe.",
-                       auth=auth, timeout=30)
+    r = requests.post(MEDIA_API, headers=headers, data=buf.getvalue(), auth=auth, timeout=30)
     check_wp_error(r)
     if r.status_code not in (200, 201):
         die(f"Media test upload failed: {r.status_code} {r.text[:500]}")
@@ -112,7 +122,7 @@ def media_test_upload():
     # Clean up immediately; this was only a permissions probe.
     dr = requests.delete(f"{MEDIA_API}/{media_id}", params={"force": "true"}, auth=auth, timeout=30)
     if dr.status_code not in (200, 201):
-        print(f"  [!] Could not delete the probe upload (media id {media_id}, status {dr.status_code}) -- harmless, but a leftover 'ncysa-automation-probe.txt' will remain in the media library.")
+        print(f"  [!] Could not delete the probe upload (media id {media_id}, status {dr.status_code}) -- harmless, but a leftover 'ncysa-automation-probe.docx' will remain in the media library.")
 
 
 def find_prior_media(title):
