@@ -1,8 +1,10 @@
 name: NCYSA Find My Club refresh
 
-# Phase A: read-only reconciliation. Run it by hand from the Actions tab
-# (workflow_dispatch). The scheduled run is here but commented out until the
-# numbers check out and we wire up publishing.
+# Phase A: read-only reconciliation, always runs. Phase B: build the report
+# and publish it to the WordPress DRAFT/preview page ONLY -- opt-in via the
+# publish_preview input, never on by default. Nothing in this workflow ever
+# writes to the live board page. The scheduled run is still commented out
+# until Step 4 (recurring auto-refresh) is explicitly approved.
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +12,11 @@ on:
         description: "End date (YYYY-MM-DD). Use 2026-07-20 to match the July baseline."
         required: false
         default: "2026-07-20"
+      publish_preview:
+        description: "Also build the report and publish it to the WP preview/draft page (never the live page)"
+        type: boolean
+        required: false
+        default: false
   # schedule:
   #   - cron: "0 11 2 8 *"   # example: Aug 2, 07:00 ET (11:00 UTC)
 
@@ -41,9 +48,32 @@ jobs:
           RANGE_START: "2026-01-01"
           RANGE_END: ${{ github.event.inputs.range_end }}
 
+      - name: Pull full report data
+        if: github.event.inputs.publish_preview == 'true'
+        run: python build_data.py
+        env:
+          GA4_KEY_FILE: key.json
+          GA4_PROPERTY_ID: "514757424"
+          RANGE_START: "2026-01-01"
+          RANGE_END: ${{ github.event.inputs.range_end }}
+
       - name: Clean up key
         if: always()
         run: rm -f key.json
+
+      - name: Build report HTML
+        if: github.event.inputs.publish_preview == 'true'
+        run: python build_report.py
+
+      - name: Publish to WP preview/draft (never the live page)
+        if: github.event.inputs.publish_preview == 'true'
+        run: python publish.py
+        env:
+          WP_SITE: "https://www.ncsoccer.org"
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+          WP_LIVE_PAGE_ID: "10514"
+          WP_PREVIEW_SLUG: "board-meeting-8-5-preview"
 
       - name: Upload raw numbers
         if: always()
@@ -51,3 +81,10 @@ jobs:
         with:
           name: ga_results
           path: ga_results.json
+
+      - name: Upload rebuilt report
+        if: github.event.inputs.publish_preview == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: board_report
+          path: build/board_report.html
