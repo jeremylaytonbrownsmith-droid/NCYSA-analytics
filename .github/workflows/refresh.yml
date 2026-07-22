@@ -1,10 +1,22 @@
 name: NCYSA Find My Club refresh
 
-# Phase A: read-only reconciliation, always runs. Phase B: build the report
-# and publish it to the WordPress DRAFT/preview page ONLY -- opt-in via the
-# publish_preview input, never on by default. Nothing in this workflow ever
-# writes to the live board page. The scheduled run is still commented out
-# until Step 4 (recurring auto-refresh) is explicitly approved.
+# Always runs: read-only GA4 reconciliation (ga_pull.py).
+#
+# Full chain (data -> guardrail -> Word/Excel rebuild -> media upload ->
+# HTML rebuild -> WordPress publish) runs when either:
+#   - triggered manually with the "publish_preview" checkbox on, or
+#   - triggered by the weekly schedule below.
+#
+# The publish target (preview draft vs. the live page) is computed by the
+# "Determine publish target" step. Manual runs choose it via the
+# publish_target input (default preview). Scheduled runs always use
+# SCHEDULED_PUBLISH_TARGET below -- currently "preview". That one line is
+# the switch to flip when ready for hands-off publishing to the live page.
+#
+# Note: GitHub Actions only fires `schedule` triggers from the repository's
+# default branch, so the weekly run won't start firing until this workflow
+# is merged there -- manual (workflow_dispatch) runs work from any branch
+# in the meantime, which is how this was tested.
 on:
   workflow_dispatch:
     inputs:
@@ -13,12 +25,32 @@ on:
         required: false
         default: "2026-07-20"
       publish_preview:
-        description: "Also build the report and publish it to the WP preview/draft page (never the live page)"
+        description: "Also run the full chain: rebuild Word/Excel/HTML and publish (see publish_target)"
         type: boolean
         required: false
         default: false
-  # schedule:
-  #   - cron: "0 11 2 8 *"   # example: Aug 2, 07:00 ET (11:00 UTC)
+      publish_target:
+        description: "Where to publish when publish_preview is checked"
+        type: choice
+        options:
+          - preview
+          - live
+        required: false
+        default: preview
+  schedule:
+    # Monday 8:00 AM US-Eastern. Cron is UTC-only and doesn't shift for DST:
+    # 12:00 UTC is 8am EDT (roughly Mar-Nov); during EST (winter) this fires
+    # at 7am ET instead. Adjust to "0 13 * * 1" for wintertime 8am ET if
+    # that precision starts to matter.
+    - cron: "0 12 * * 1"
+
+env:
+  # The one-line switch: change to "live" when ready for the weekly
+  # schedule to publish straight to the live page instead of the draft.
+  SCHEDULED_PUBLISH_TARGET: preview
+
+permissions:
+  contents: write  # needed to commit the updated guardrail baseline
 
 jobs:
   reconcile:
@@ -32,6 +64,17 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Determine whether to run the full chain and where to publish
+        id: plan
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "run_chain=true" >> "$GITHUB_OUTPUT"
+            echo "target=${{ env.SCHEDULED_PUBLISH_TARGET }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_chain=${{ github.event.inputs.publish_preview }}" >> "$GITHUB_OUTPUT"
+            echo "target=${{ github.event.inputs.publish_target }}" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Write service-account key from secret
         run: |
@@ -49,7 +92,7 @@ jobs:
           RANGE_END: ${{ github.event.inputs.range_end }}
 
       - name: Pull full report data
-        if: github.event.inputs.publish_preview == 'true'
+        if: success() && steps.plan.outputs.run_chain == 'true'
         run: python build_data.py
         env:
           GA4_KEY_FILE: key.json
@@ -61,19 +104,53 @@ jobs:
         if: always()
         run: rm -f key.json
 
+      - name: Guardrail -- abort if core numbers are zero/missing or swung >60%
+        if: success() && steps.plan.outputs.run_chain == 'true'
+        run: python guardrail.py
+
+      - name: Commit updated guardrail baseline
+        if: success() && steps.plan.outputs.run_chain == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add baseline.json
+          if git diff --cached --quiet; then
+            echo "No baseline changes to commit."
+          else
+            git commit -m "Update guardrail baseline [skip ci]"
+            git push
+          fi
+
+      - name: Build Word report
+        if: success() && steps.plan.outputs.run_chain == 'true'
+        run: python generate_docx.py
+
+      - name: Build Excel workbook
+        if: success() && steps.plan.outputs.run_chain == 'true'
+        run: python generate_xlsx.py
+
+      - name: Upload Word/Excel to WordPress media library
+        if: success() && steps.plan.outputs.run_chain == 'true'
+        run: python publish.py media
+        env:
+          WP_SITE: "https://www.ncsoccer.org"
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+
       - name: Build report HTML
-        if: github.event.inputs.publish_preview == 'true'
+        if: success() && steps.plan.outputs.run_chain == 'true'
         run: python build_report.py
 
-      - name: Publish to WP preview/draft (never the live page)
-        if: github.event.inputs.publish_preview == 'true'
-        run: python publish.py
+      - name: Publish HTML to WordPress
+        if: success() && steps.plan.outputs.run_chain == 'true'
+        run: python publish.py page
         env:
           WP_SITE: "https://www.ncsoccer.org"
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
           WP_LIVE_PAGE_ID: "10514"
           WP_PREVIEW_SLUG: "board-meeting-8-5-preview"
+          PUBLISH_TARGET: ${{ steps.plan.outputs.target }}
 
       - name: Upload raw numbers
         if: always()
@@ -82,9 +159,13 @@ jobs:
           name: ga_results
           path: ga_results.json
 
-      - name: Upload rebuilt report
-        if: github.event.inputs.publish_preview == 'true'
+      - name: Upload rebuilt report bundle
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: board_report
-          path: build/board_report.html
+          name: board_report_bundle
+          path: |
+            build/board_report.html
+            build/board_report.docx
+            build/data_workbook.xlsx
+          if-no-files-found: ignore

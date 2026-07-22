@@ -35,10 +35,13 @@ from google.analytics.data_v1beta.types import (
 KEY_FILE = os.environ.get("GA4_KEY_FILE", "key.json")
 PROPERTY = "properties/" + os.environ.get("GA4_PROPERTY_ID", "514757424")
 RANGE_START = os.environ.get("RANGE_START", "2026-01-01")
+# Rolls forward by default (yesterday, since GA4 keeps processing today's
+# data for ~48h) so recurring/scheduled runs actually advance the window
+# each time. Pin RANGE_END=2026-07-20 explicitly for a baseline comparison.
 RANGE_END = os.environ.get(
     "RANGE_END",
-    (datetime.date(2026, 7, 20)).isoformat(),  # default matches baseline window
-)
+    (datetime.date.today() - datetime.timedelta(days=1)).isoformat(),
+) or (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
 # club_click tracking only began 2026-07-08; its window is separate.
 CLICK_START = os.environ.get("CLICK_START", "2026-07-08")
 CAMPAIGN = "worldcup2026"

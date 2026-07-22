@@ -23,6 +23,7 @@ Usage: python3 build_report.py [data.json] [template.html] [out.html]
 """
 
 import sys
+import os
 import re
 import json
 import math
@@ -363,12 +364,28 @@ def build():
         f'{short_date(win["end"], with_year=True)}.',
     )
 
+    # Download button hrefs: only touched if publish.py's media stage ran
+    # first and produced fresh upload URLs. Otherwise left exactly as-is,
+    # per the locked rule -- links stay put unless the files are re-uploaded.
+    media_urls_path = "build/media_urls.json"
+    if os.path.exists(media_urls_path):
+        media_urls = json.load(open(media_urls_path))
+        html = sub_one(
+            html, r'(<a class="fmcr-dl-btn fmcr-doc" href=")[^"]*(")',
+            lambda m: m.group(1) + media_urls["docx_url"] + m.group(2),
+        )
+        html = sub_one(
+            html, r'(<a class="fmcr-dl-btn fmcr-xls" href=")[^"]*(")',
+            lambda m: m.group(1) + media_urls["xlsx_url"] + m.group(2),
+        )
+    else:
+        print("  (build/media_urls.json not found -- download button links left unchanged)")
+
     return html
 
 
 def main():
     html = build()
-    import os
     os.makedirs("build", exist_ok=True)
     with open(OUT_PATH, "w") as f:
         f.write(html)
