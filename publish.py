@@ -152,7 +152,11 @@ def main():
 
     link = page.get("link", "")
     edit_link = f"{WP_SITE}/wp-admin/post.php?post={page['id']}&action=edit"
-    preview_link = f"{link}?preview=true" if link else f"{WP_SITE}/?page_id={page['id']}&preview=true"
+    if link:
+        sep = "&" if "?" in link else "?"
+        preview_link = f"{link}{sep}preview=true"
+    else:
+        preview_link = f"{WP_SITE}/?page_id={page['id']}&preview=true"
     print("\nPublished to preview/draft page -- the live page was NOT touched.")
     print(f"  Page ID:      {page['id']}")
     print(f"  Slug:         {page.get('slug')}")
