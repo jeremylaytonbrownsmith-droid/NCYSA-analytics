@@ -42,11 +42,18 @@ on:
         required: false
         default: preview
   schedule:
-    # Monday 8:00 AM US-Eastern. Cron is UTC-only and doesn't shift for DST:
-    # 12:00 UTC is 8am EDT (roughly Mar-Nov); during EST (winter) this fires
-    # at 7am ET instead. Adjust to "0 13 * * 1" for wintertime 8am ET if
-    # that precision starts to matter.
-    - cron: "0 12 * * 1"
+    # Monday/Wednesday/Friday, 8:00 AM US-Eastern. Cron is UTC-only and
+    # doesn't shift for DST: 12:00 UTC is 8am EDT (roughly Mar-Nov); during
+    # EST (winter) this fires at 7am ET instead. Adjust to "0 13 * * 1,3,5"
+    # for wintertime 8am ET if that precision starts to matter.
+    - cron: "0 12 * * 1,3,5"
+    # One-off safety net: Aug 4 evening (6pm ET / 22:00 UTC), the evening
+    # before the Aug 5 board meeting, in case that week's regular cadence
+    # above ever misses or the meeting date needs a guaranteed same-day
+    # refresh. Harmless to leave in place after the meeting -- it'll just
+    # fire again on Aug 4 next year too; delete this line whenever that
+    # stops being useful.
+    - cron: "0 22 4 8 *"
 
 env:
   # The one-line switch: change to "live" when ready for the weekly
