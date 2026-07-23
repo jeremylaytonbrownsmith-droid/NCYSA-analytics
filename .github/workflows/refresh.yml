@@ -25,9 +25,9 @@ on:
   workflow_dispatch:
     inputs:
       range_end:
-        description: "End date (YYYY-MM-DD). Use 2026-07-20 to match the July baseline."
+        description: "End date (YYYY-MM-DD). Leave blank for current data (through yesterday). Use 2026-07-20 only to reproduce the original July baseline test."
         required: false
-        default: "2026-07-20"
+        default: ""
       publish_preview:
         description: "Also run the full chain: rebuild Word/Excel/HTML and publish (see publish_target)"
         type: boolean
