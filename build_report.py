@@ -248,6 +248,14 @@ def build():
         f'Daily ZIP searches &middot; {month_range(win["start"], win["end"])} &middot;',
     )
 
+    # live-data beacon: refreshed date defaults to the pull date, falling
+    # back to the data window's end date for older ga_report_data.json files
+    # that predate the "generated_at" field.
+    html = sub_one(
+        html, r'<span class="fmcr-live-date">[^<]*</span>',
+        f'<span class="fmcr-live-date">{long_date(win.get("generated_at", win["end"]), with_year=True)}</span>',
+    )
+
     # before/after caption
     html = sub_one(
         html, r'Searches averaged <b>\d+ per day</b> before the campaign and <b>\d+ per day</b> after',

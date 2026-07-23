@@ -414,6 +414,7 @@ def main():
         "end": g.RANGE_END,
         "click_start": g.CLICK_START,
         "campaign_marker": g.CAMPAIGN_MARKER,
+        "generated_at": datetime.date.today().isoformat(),
     }
     data["errors"] = errors
 
