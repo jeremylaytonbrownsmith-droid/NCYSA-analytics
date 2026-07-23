@@ -10,13 +10,17 @@ name: NCYSA Find My Club refresh
 # The publish target (preview draft vs. the live page) is computed by the
 # "Determine publish target" step. Manual runs choose it via the
 # publish_target input (default preview). Scheduled runs always use
-# SCHEDULED_PUBLISH_TARGET below -- currently "preview". That one line is
-# the switch to flip when ready for hands-off publishing to the live page.
+# SCHEDULED_PUBLISH_TARGET below -- currently "live". That one line is
+# the switch; set it back to "preview" to pull hands-off publishing back
+# to the draft page.
+#
+# To pause the live page without touching this file at all, prepend
+# "[PAUSED]" to the live page's title in WordPress -- see is_paused() in
+# publish.py. That works from any branch/target and needs no code access.
 #
 # Note: GitHub Actions only fires `schedule` triggers from the repository's
-# default branch, so the weekly run won't start firing until this workflow
-# is merged there -- manual (workflow_dispatch) runs work from any branch
-# in the meantime, which is how this was tested.
+# default branch. This branch (claude/ncysa-ga4-refresh-automation-sxdq6r)
+# is currently the repo's default branch, so the schedule is live from here.
 on:
   workflow_dispatch:
     inputs:
@@ -47,7 +51,7 @@ on:
 env:
   # The one-line switch: change to "live" when ready for the weekly
   # schedule to publish straight to the live page instead of the draft.
-  SCHEDULED_PUBLISH_TARGET: preview
+  SCHEDULED_PUBLISH_TARGET: live
 
 permissions:
   contents: write  # needed to commit the updated guardrail baseline
