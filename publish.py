@@ -198,9 +198,26 @@ def preflight_read_live():
     if r.status_code != 200:
         die(f"Unexpected status reading live page: {r.status_code} {r.text[:500]}")
     page = r.json()
-    print(f"  OK -- page {LIVE_PAGE_ID} title: {page.get('title', {}).get('raw', '')!r}, "
+    title = page.get("title", {}).get("raw", "")
+    print(f"  OK -- page {LIVE_PAGE_ID} title: {title!r}, "
           f"status: {page.get('status')}, password-protected: {bool(page.get('password'))}")
-    return page.get("content", {}).get("raw", "")
+    return page.get("content", {}).get("raw", ""), title
+
+
+# Kill-switch for live publishing, controlled entirely from WordPress: the
+# board can prepend this to the live page's title (e.g. "[PAUSED] Board
+# Meeting 8/5") in the normal WP editor to pause automated live updates,
+# with no code/GitHub access needed, and remove it to resume. The title
+# field works for this because publish_live() below never writes to title
+# -- only content -- so the marker can't be silently overwritten by the
+# very automation it's meant to pause. Case-insensitive; only checked for
+# PUBLISH_TARGET=live (the preview publish always overwrites its own
+# title anyway, so a marker there wouldn't survive regardless).
+PAUSE_MARKER = "[PAUSED]"
+
+
+def is_paused(title):
+    return PAUSE_MARKER.lower() in (title or "").lower()
 
 
 def extract_fragment(full_html):
@@ -280,10 +297,14 @@ def page_stage():
         die(f"{REPORT_HTML_PATH} not found -- run build_data.py and build_report.py first.")
     rebuilt_html = open(REPORT_HTML_PATH).read()
 
-    live_raw = preflight_read_live()
+    live_raw, live_title = preflight_read_live()
     payload_content = decide_wrapping(live_raw, rebuilt_html)
 
     if PUBLISH_TARGET == "live":
+        if is_paused(live_title):
+            print(f"\nLive publish SKIPPED -- page title contains {PAUSE_MARKER!r}: {live_title!r}")
+            print(f"To resume automated live updates, remove {PAUSE_MARKER!r} from the page title in WordPress.")
+            return
         page = publish_live(payload_content)
         print("\nPublished to the LIVE page.")
         print(f"  Page ID:  {page['id']}")
