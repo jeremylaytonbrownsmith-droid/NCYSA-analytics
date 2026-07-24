@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Elizabethtown Soccer Club",
+    "ncysa_number": "0356",
+    "abbreviation": "ESC",
+    "city": "Elizabethtown",
+    "state": "NC",
+    "address": "308 Doll Street, Elizabethtown, NC 28337",
+    "phone": "910.872.4423",
+    "email": "luther.joe@gmail.com",
+    "email_confirmed": false,
+    "website": null,
+    "logo": null,
+    "president_name": "Josh Raynor",
+    "president_email": "jcraynor15@hotmail.com",
+    "established": 2026,
+    "notes": "Website and logo not yet available as of the initial member-add email (from Wendy Burns). Club said logo coming ASAP. Move to clubs.json once both arrive."
+  }
+]
