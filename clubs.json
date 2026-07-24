@@ -1,0 +1,626 @@
+[
+  {
+    "name": "316 Futbol Club",
+    "url": "https://www.316-sports.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/316-FC-logo.jpg",
+    "alt": "316 Futbol Club logo"
+  },
+  {
+    "name": "AC Sandhills",
+    "url": "http://www.acsandhills.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/AC-SANDHILLS.png",
+    "alt": "AC Sandhills logo"
+  },
+  {
+    "name": "Alamance Aztecs Futbol Club",
+    "url": "https://www.alamanceaztecsfc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/12/AlamanceAztecsLogo.png",
+    "alt": "Alamance Aztecs Futbol Club logo"
+  },
+  {
+    "name": "Asheboro City Futbol Club",
+    "url": "https://www.randolphasheboroymca.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/ASHEBORO-CITY-FUTBOL-CLUB.jpg",
+    "alt": "Asheboro City Futbol Club logo"
+  },
+  {
+    "name": "Asheville Buncombe Youth Soccer Association",
+    "url": "http://www.abysa.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/ASHEVILLE-BUNCOMBE-YSAHIGHLAND-FC.jpg",
+    "alt": "Asheville Buncombe Youth Soccer Association logo"
+  },
+  {
+    "name": "Asheville Football Club",
+    "url": "https://avlfootballclub.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/ASHEVILLE-FOOTBALL-CLUB.png",
+    "alt": "Asheville Football Club logo"
+  },
+  {
+    "name": "Bogue Banks Futbol Club",
+    "url": "https://www.boguebanksfc.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/BOGUE-BANKS-FUTBOL-CLUB.png",
+    "alt": "Bogue Banks Futbol Club logo"
+  },
+  {
+    "name": "Brunswick United",
+    "url": "https://www.brunswickunitednc.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/BRUNSWICK-UNITED.jpg",
+    "alt": "Brunswick United logo"
+  },
+  {
+    "name": "Burke Soccer Association",
+    "url": "https://burkesoccer.sites.playmetrics.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/BURKE-SA.jpg",
+    "alt": "Burke Soccer Association logo"
+  },
+  {
+    "name": "Carolina Core FC",
+    "url": "https://carolinacoreyouth.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CAROLINA-CORE-FC-YOUTH.webp",
+    "alt": "Carolina Core FC logo"
+  },
+  {
+    "name": "Carolina Elite Soccer Academy",
+    "url": "https://carolinaelitesc.com/branch-locations/asheville",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/12/CAROLINA-ELITE-SOCCER-ACADEMY.png",
+    "alt": "Carolina Elite Soccer Academy logo"
+  },
+  {
+    "name": "Carolina Football Club",
+    "url": "https://www.carolinafc.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CAROLINA-FOOTBALL-CLUB.png",
+    "alt": "Carolina Football Club logo"
+  },
+  {
+    "name": "Carolina Mountains Soccer Club",
+    "url": "https://www.carolinamountainssoccer.org/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CAROLINA-MOUNTAIN-SC.png",
+    "alt": "Carolina Mountains Soccer Club logo"
+  },
+  {
+    "name": "Carolina Orbit Soccer Team",
+    "url": "https://carolinaorbit.org/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/02/CarolinaOrbit.png.webp",
+    "alt": "Carolina Orbit Soccer Team logo"
+  },
+  {
+    "name": "Carolina United Soccer Association",
+    "url": "http://www.carolinaunitedsoccer.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CAROLINA-UNITED-SA.avif",
+    "alt": "Carolina United Soccer Association logo"
+  },
+  {
+    "name": "Carolina Velocity Futbol Club",
+    "url": "http://www.carolinavelocity.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CAROLINA-VELOCITY-FUTBOL-ACADEMY.png",
+    "alt": "Carolina Velocity Futbol Club logo"
+  },
+  {
+    "name": "Catawba Valley Youth Soccer Association",
+    "url": "http://www.cvysa.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CATAWBA-VALLEY-YOUTH-SA.png",
+    "alt": "Catawba Valley Youth Soccer Association logo"
+  },
+  {
+    "name": "Charlotte Eagles Soccer Club",
+    "url": "https://www.charlotteeagles.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CHARLOTTE-EAGLES-SOCCER-CLUB.webp",
+    "alt": "Charlotte Eagles Soccer Club logo"
+  },
+  {
+    "name": "Charlotte Independence Soccer Club",
+    "url": "http://www.independencesoccer.club",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CHARLOTTE-INDEPENDENCE.png",
+    "alt": "Charlotte Independence Soccer Club logo"
+  },
+  {
+    "name": "Charlotte Metro Futbol Club",
+    "url": "https://www.charlottemetrofc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/12/Charlotte-Metro-FC-logo-jpeg.jpg",
+    "alt": "Charlotte Metro Futbol Club logo"
+  },
+  {
+    "name": "Charlotte Soccer Academy",
+    "url": "http://www.charlottesocceracademy.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CHARLOTTE-SOCCER-ACADEMY.jpeg",
+    "alt": "Charlotte Soccer Academy logo"
+  },
+  {
+    "name": "Charlotte Rise Futbol Club",
+    "url": "https://www.risefcsoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/04/Charlotte-Rise-FC-logo.png",
+    "alt": "Charlotte Rise Futbol Club logo"
+  },
+  {
+    "name": "Chatham Soccer League",
+    "url": "http://www.chathamsoccerleague.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/02/Chatham.png.webp",
+    "alt": "Chatham Soccer League logo"
+  },
+  {
+    "name": "Cherokee Co. Soccer League",
+    "url": "http://www.play4ccsl.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/CHEROKEE-CO-SL.png",
+    "alt": "Cherokee Co. Soccer League logo"
+  },
+  {
+    "name": "City of Statesville Recreation",
+    "url": "https://statesvillenc.net",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/02/HFg-BrASabytPmHDhukwa.png",
+    "alt": "City of Statesville Recreation logo"
+  },
+  {
+    "name": "Coastal United Soccer Association",
+    "url": "http://www.coastalunited.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/COASTAL-UNITED.png",
+    "alt": "Coastal United Soccer Association logo"
+  },
+  {
+    "name": "Davidson County Youth Soccer League",
+    "url": "http://www.dcysa.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/DAVIDSON-COUNTY-YOUTH-SL.jpg",
+    "alt": "Davidson County Youth Soccer League logo"
+  },
+  {
+    "name": "Denver United Futbol Club",
+    "url": "http://www.denverunitedfc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/DENVER-UNITED.png",
+    "alt": "Denver United Futbol Club logo"
+  },
+  {
+    "name": "Dixon Soccer League",
+    "url": "https://www.facebook.com/profile.php?id=61578074966656",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/02/Dixon.gif",
+    "alt": "Dixon Soccer League logo"
+  },
+  {
+    "name": "Durham Futbol Club",
+    "url": "https://www.durhamsocceracademy.com/durhamfc",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/DURHAM-FUTBOL-CLUB.png",
+    "alt": "Durham Futbol Club logo"
+  },
+  {
+    "name": "East Duplin Soccer Club",
+    "url": "http://www.edsc-nc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/EAST-DUPLIN-SC.png",
+    "alt": "East Duplin Soccer Club logo"
+  },
+  {
+    "name": "Elite Youth Soccer Club Inc",
+    "url": "https://www.eliteysc.org/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/12/ELITE_YOUTH_PNG__Big__medium.png",
+    "alt": "Elite Youth Soccer Club Inc logo"
+  },
+  {
+    "name": "Falcons United",
+    "url": "https://www.falconsunitednc.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/12/falcons-colored-logo.png",
+    "alt": "Falcons United logo"
+  },
+  {
+    "name": "Fayetteville Soccer Club",
+    "url": "http://www.fscforce.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/12/fsc_logo_2.png",
+    "alt": "Fayetteville Soccer Club logo"
+  },
+  {
+    "name": "FC Athletico",
+    "url": "https://www.fcathletico.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/FC-ATHLETICO.png",
+    "alt": "FC Athletico logo"
+  },
+  {
+    "name": "Fort Mill United FC",
+    "url": "https://www.fortmillunitedfc.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/06/Fort-Mill-united-logo.jpg",
+    "alt": "Fort Mill United FC logo"
+  },
+  {
+    "name": "Fox Soccer Academy of the Carolinas",
+    "url": "https://www.foxsoccer.academy/carolinas",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/FOX-SOCCER-ACADEMY-OF-THE-CA.png",
+    "alt": "Fox Soccer Academy of the Carolinas logo"
+  },
+  {
+    "name": "Franklin Wake Soccer Club",
+    "url": "http://www.fwsoccerclub.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/FRANKLIN-WAKE-SOCCER-CLUB.png",
+    "alt": "Franklin Wake Soccer Club logo"
+  },
+  {
+    "name": "Goldsboro Football Club",
+    "url": "https://www.strikeeaglesfc.net/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/GOLDSBORO-FOOTBALL-CLUB.png",
+    "alt": "Goldsboro Football Club logo"
+  },
+  {
+    "name": "Greater Cleveland Athletic Association",
+    "url": "http://www.gcaasports.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/GREATER-CLEVELAND-AA.png",
+    "alt": "Greater Cleveland Athletic Association logo"
+  },
+  {
+    "name": "Greater Cleveland Co. Soccer Association",
+    "url": "http://www.gccsasoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/GREATER-CLEVELAND-COUNTY-SA.png",
+    "alt": "Greater Cleveland Co. Soccer Association logo"
+  },
+  {
+    "name": "Guilford Futbol Club",
+    "url": "https://www.instagram.com/guilford_futbolclub",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/GUILFORD-FUTBOL-CLUB.jpg",
+    "alt": "Guilford Futbol Club logo"
+  },
+  {
+    "name": "Havelock Youth Soccer Association",
+    "url": "http://www.havelocksoccer.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/HAVELOCK-YOUTH-SA.png",
+    "alt": "Havelock Youth Soccer Association logo"
+  },
+  {
+    "name": "Appalachian FC Academy",
+    "url": "http://www.hcsoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/HIGH-COUNTRY-SA.png",
+    "alt": "Appalachian FC Academy logo"
+  },
+  {
+    "name": "Impact Futbol Club",
+    "url": "http://impactfutbolclub.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/IMPACT-FUTBOL-CLUB.png",
+    "alt": "Impact Futbol Club logo"
+  },
+  {
+    "name": "Indian Trail Athletic Association",
+    "url": "https://itaasports.sportngin.com/playsoccer",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/INDIAN-TRAIL-AA.jpg",
+    "alt": "Indian Trail Athletic Association logo"
+  },
+  {
+    "name": "Inter Development Futbol",
+    "url": "https://www.idfutbol.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/INTER-DEVELOPMENT-FUTBOL.png",
+    "alt": "Inter Development Futbol logo"
+  },
+  {
+    "name": "Jacksonville Area Soccer Association",
+    "url": "http://www.jasa-nc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/JACKSONVILLE-AREA-SA.png",
+    "alt": "Jacksonville Area Soccer Association logo"
+  },
+  {
+    "name": "Lenoir Youth Soccer Association",
+    "url": "http://www.lenoiryouthsoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/LENOIR-YOUTH-SA.png",
+    "alt": "Lenoir Youth Soccer Association logo"
+  },
+  {
+    "name": "Lumber River Football Club",
+    "url": "https://www.lumberriverfc.org/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/LUMBER-RIVER-FOOTBALL-CLUB.png",
+    "alt": "Lumber River Football Club logo"
+  },
+  {
+    "name": "Mebane Youth Soccer Association",
+    "url": "http://www.mebaneyouthsoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/MEBANE-YOUTH-SA.jpg",
+    "alt": "Mebane Youth Soccer Association logo"
+  },
+  {
+    "name": "Mint Hill Athletic Association",
+    "url": "http://www.mhaa.us/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/12/35224404_mhaa_logovector_medium.png",
+    "alt": "Mint Hill Athletic Association logo"
+  },
+  {
+    "name": "Mooresville Inclusive Soccer Association",
+    "url": null,
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/MOORESVILLE-INCLUSIVE-SA.jpg",
+    "alt": "Mooresville Inclusive Soccer Association logo"
+  },
+  {
+    "name": "NC Fusion",
+    "url": "http://www.soccer.ncfusion.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/NC-FUSION.png",
+    "alt": "NC Fusion logo"
+  },
+  {
+    "name": "Neuse River Futbol Alliance",
+    "url": "http://www.neuseriverfa.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/NEUSE-RIVER-FUTBOL-ALLIANCE.png",
+    "alt": "Neuse River Futbol Alliance logo"
+  },
+  {
+    "name": "Next Big Thing Soccer Academy",
+    "url": "https://nbtsoccer.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/NEXT-BIG-THING-SOCCER-ACADEMY.png",
+    "alt": "Next Big Thing Soccer Academy logo"
+  },
+  {
+    "name": "North Carolina FC Youth",
+    "url": "https://www.ncfcyouth.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/NORTH-CAROLINA-FC-YOUTH.png",
+    "alt": "North Carolina FC Youth logo"
+  },
+  {
+    "name": "North Carolina Rush Triad Soccer Club",
+    "url": "http://www.northcarolinarushtriad.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/NORTH-CAROLINA-RUSH-TRIAD.png",
+    "alt": "North Carolina Rush Triad Soccer Club logo"
+  },
+  {
+    "name": "OBX Storm",
+    "url": "http://www.obxstorm.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/OBX-STORM-INC.png",
+    "alt": "OBX Storm logo"
+  },
+  {
+    "name": "Onslow Classic Soccer Association",
+    "url": "http://www.ocsa-nc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/ONSLOW-CLASSIC-SA.jpeg",
+    "alt": "Onslow Classic Soccer Association logo"
+  },
+  {
+    "name": "Pender Storm Football Club",
+    "url": "https://www.penderyouthsoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/PENDER-STORM-FOOTBALL-CLUB.webp",
+    "alt": "Pender Storm Football Club logo"
+  },
+  {
+    "name": "Piedmont Area Soccer Association",
+    "url": "http://www.praonline.org/soccer/index.html",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/PIEDMONT-AREA-SA.png",
+    "alt": "Piedmont Area Soccer Association logo"
+  },
+  {
+    "name": "Piedmont Soccer Club",
+    "url": "https://piedmontsoccerclub.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/02/piedmont-soccer.png",
+    "alt": "Piedmont Soccer Club logo"
+  },
+  {
+    "name": "Piney Green Soccer Club",
+    "url": "http://www.pineygreensoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/PINEY-GREEN-SC.png",
+    "alt": "Piney Green Soccer Club logo"
+  },
+  {
+    "name": "Pitt-Greenville Soccer Association",
+    "url": "http://www.pgsasoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/PITT-GREENVILLE-SA.png",
+    "alt": "Pitt-Greenville Soccer Association logo"
+  },
+  {
+    "name": "Porter Ridge Athletic Association",
+    "url": "http://www.praasoccer.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/PORTER-RIDGE-AA.png",
+    "alt": "Porter Ridge Athletic Association logo"
+  },
+  {
+    "name": "Richlands Soccer Club",
+    "url": "http://www.rsc-nc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/RICHLANDS-SC.png",
+    "alt": "Richlands Soccer Club logo"
+  },
+  {
+    "name": "Roanoke Valley Youth Soccer Association",
+    "url": "http://www.rvysa.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/ROANOKE-VALLEY-YOUTH-SA.png",
+    "alt": "Roanoke Valley Youth Soccer Association logo"
+  },
+  {
+    "name": "Rutherford County Soccer Association",
+    "url": "http://www.rcsoccer.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/RUTHERFORD-COUNTY-SA.png",
+    "alt": "Rutherford County Soccer Association logo"
+  },
+  {
+    "name": "Sampson County Soccer Club",
+    "url": "http://www.sampsoncountysoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SAMPSON-COUNTY-SC.png",
+    "alt": "Sampson County Soccer Club logo"
+  },
+  {
+    "name": "Sandhills FC",
+    "url": "https://www.sandhillsfc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/04/sandhills-logo.png",
+    "alt": "Sandhills FC logo"
+  },
+  {
+    "name": "Sanford Area Soccer League",
+    "url": "http://www.sasl.net",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SANFORD-AREA-SL.png",
+    "alt": "Sanford Area Soccer League logo"
+  },
+  {
+    "name": "Seashore Soccer League",
+    "url": "http://www.ssl-nc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SEASHORE-SL.png",
+    "alt": "Seashore Soccer League logo"
+  },
+  {
+    "name": "Sherrills Ford Soccer Club",
+    "url": "https://www.sfoptimist.org/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/03/Sherrills-Ford-SC-logo.png",
+    "alt": "Sherrills Ford Soccer Club logo"
+  },
+  {
+    "name": "South Iredell Soccer Association",
+    "url": "http://www.sisasoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SOUTH-IREDELL-SA.png",
+    "alt": "South Iredell Soccer Association logo"
+  },
+  {
+    "name": "Southwest Soccer Club",
+    "url": "http://www.swsc-nc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SOUTHWEST-SC.png",
+    "alt": "Southwest Soccer Club logo"
+  },
+  {
+    "name": "Steele Creek Soccer Club",
+    "url": "http://www.scaasports.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/STEELE-CREEK-SOCCER-CLUB.jpeg",
+    "alt": "Steele Creek Soccer Club logo"
+  },
+  {
+    "name": "Stokes United Football Club",
+    "url": "http://www.stokesunitedfc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/STOKES-UNITED-FC.png",
+    "alt": "Stokes United Football Club logo"
+  },
+  {
+    "name": "Stokesdale Park Soccer Association",
+    "url": "http://www.stokesdaleparksandrec.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/STOKESDALE-PARK-SA.png",
+    "alt": "Stokesdale Park Soccer Association logo"
+  },
+  {
+    "name": "Strikers of Gaston County Soccer Association",
+    "url": "http://www.sgcsa.net",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/STRIKERS-OF-GASTON-COUNTY-SA.png",
+    "alt": "Strikers of Gaston County Soccer Association logo"
+  },
+  {
+    "name": "Summersill Soccer Club",
+    "url": "http://www.summersillsoccer.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SUMMERSILL-SC.png",
+    "alt": "Summersill Soccer Club logo"
+  },
+  {
+    "name": "Superb Futbol Club",
+    "url": "https://superbfutbolclub.org/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SUPERB-FUTBOL-CLUB.png",
+    "alt": "Superb Futbol Club logo"
+  },
+  {
+    "name": "Swain Youth Soccer Association",
+    "url": "http://www.swainsoccer.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SWAIN-YOUTH-SA.png",
+    "alt": "Swain Youth Soccer Association logo"
+  },
+  {
+    "name": "Swansboro Soccer Association",
+    "url": "http://www.swansborosoccerassociation.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/SWANSBORO-SA.jpeg",
+    "alt": "Swansboro Soccer Association logo"
+  },
+  {
+    "name": "Academy Football Club",
+    "url": "http://www.tarriversoccer.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/TAR-RIVER-YOUTH-SA.jpeg",
+    "alt": "Academy Football Club logo"
+  },
+  {
+    "name": "Toe Valley Soccer Association",
+    "url": "http://www.toevalleysoccer.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/TOE-VALLEY-SA.png",
+    "alt": "Toe Valley Soccer Association logo"
+  },
+  {
+    "name": "TOR Futbol Academy",
+    "url": "https://www.torfutbolacademy.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/TOR-FUTBOL-ACADEMY.jpg",
+    "alt": "TOR Futbol Academy logo"
+  },
+  {
+    "name": "Transylvania Youth Soccer Association",
+    "url": "http://www.tysa.us/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/TRANSYLVANIA-YOUTH-SA.png",
+    "alt": "Transylvania Youth Soccer Association logo"
+  },
+  {
+    "name": "Triad Union Football Club",
+    "url": "https://www.triadunionfc.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/TRIAD-UNION-FOOTBALL-CLUB.png",
+    "alt": "Triad Union Football Club logo"
+  },
+  {
+    "name": "Triangle United Soccer Association",
+    "url": "http://www.triangleunited.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/TRIANGLE-UNITED-SA.png",
+    "alt": "Triangle United Soccer Association logo"
+  },
+  {
+    "name": "Triangle Y Soccer Club",
+    "url": "http://www.ymcatriangle.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/TRIANGLE-Y-SC-copy.png",
+    "alt": "Triangle Y Soccer Club logo"
+  },
+  {
+    "name": "UNC-Chapel Hill TOPSoccer",
+    "url": null,
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2026/02/University_of_North_Carolina_at_Chapel_Hill_seal.svg.png",
+    "alt": "UNC-Chapel Hill TOPSoccer logo"
+  },
+  {
+    "name": "Union Youth Futbol Club",
+    "url": "https://www.uniondragons.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/UNION-YOUTH-FUTBOL-CLUB.jpg",
+    "alt": "Union Youth Futbol Club logo"
+  },
+  {
+    "name": "United Soccer Club NC",
+    "url": "https://unitedsoccerclub.teamsnapsites.com/",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/UNITED-SOCCER-CLUB-NC-INC.jpg",
+    "alt": "United Soccer Club NC logo"
+  },
+  {
+    "name": "Wake Futbol Club",
+    "url": "http://www.wakefc.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/WAKE-FUTBOL-CLUB-INC.jpeg",
+    "alt": "Wake Futbol Club logo"
+  },
+  {
+    "name": "Waxhaw Soccer Club",
+    "url": "http://www.wxwathletics.org/waxhawsoccerclub",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/WAXHAW-AA.jpeg",
+    "alt": "Waxhaw Soccer Club logo"
+  },
+  {
+    "name": "Wayne County United Soccer Club",
+    "url": "http://www.waynecountyunitedsoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/WAYNE-COUNTY-UNTED-SC.jpg",
+    "alt": "Wayne County United Soccer Club logo"
+  },
+  {
+    "name": "Wesley Chapel Weddington Athletic Assn.",
+    "url": "http://www.wcwaasoccer.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/WESLEY-CHAPEL-WEDDINGTON-AA.png",
+    "alt": "Wesley Chapel Weddington Athletic Assn. logo"
+  },
+  {
+    "name": "Western United Soccer Club",
+    "url": "http://www.wuscsoccer.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/WESTERN-UNITED-SC.png",
+    "alt": "Western United Soccer Club logo"
+  },
+  {
+    "name": "Wilmington Hammerheads Youth FC",
+    "url": "http://www.wilmingtonhammerheadsyouth.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/WILMINGTON-HAMMERHEADS-YOUTH-FC.png",
+    "alt": "Wilmington Hammerheads Youth FC logo"
+  },
+  {
+    "name": "Wilson Youth Soccer Association",
+    "url": "http://www.wilsonyouthsoccer.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/WILSON-YOUTH-SA.png",
+    "alt": "Wilson Youth Soccer Association logo"
+  },
+  {
+    "name": "Wings Of Wilkes Soccer Club",
+    "url": "http://www.wingsofwilkes.com",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/WINGS-OF-WILKES-SC.png",
+    "alt": "Wings Of Wilkes Soccer Club logo"
+  },
+  {
+    "name": "Yadkin Soccer Association",
+    "url": "https://ycsoccer.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/YADKIN-SA.png",
+    "alt": "Yadkin Soccer Association logo"
+  },
+  {
+    "name": "YMCA of Catawba Valley Soccer Club",
+    "url": "http://www.ycvsc.org",
+    "logo": "https://www.ncsoccer.org/wp-content/uploads/sites/167/2025/11/YMCA-OF-CATAWBA-VALLEY-SC.png",
+    "alt": "YMCA of Catawba Valley Soccer Club logo"
+  }
+]

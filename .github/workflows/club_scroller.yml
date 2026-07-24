@@ -1,0 +1,61 @@
+name: NCYSA Member Club Scroller
+
+# Publishes the "Our Member Clubs" logo scroller on
+# https://www.ncsoccer.org/find-my-club/ from clubs.json. Manual-only for
+# now, defaulting to a dry run (fetches the live page, reports what would
+# change, writes nothing) -- this is the first pipeline to ever touch this
+# particular page, so it's being verified against the real content before
+# any auto-publish-on-push trigger gets added.
+#
+# To update the roster: edit clubs.json, commit, push, then run this
+# workflow manually (Actions tab -> "NCYSA Member Club Scroller" -> Run
+# workflow) with dry_run unchecked to actually publish.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (check the match against the live page, write nothing)"
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Build scroller HTML from clubs.json
+        run: python build_club_scroller.py
+
+      - name: Publish to WordPress (dry run)
+        if: github.event.inputs.dry_run == 'true'
+        run: python publish_club_scroller.py build/club_scroller.html --dry-run
+        env:
+          WP_SITE: "https://www.ncsoccer.org"
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+
+      - name: Publish to WordPress (live)
+        if: github.event.inputs.dry_run == 'false'
+        run: python publish_club_scroller.py build/club_scroller.html
+        env:
+          WP_SITE: "https://www.ncsoccer.org"
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
+
+      - name: Upload generated scroller HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: club_scroller_html
+          path: build/club_scroller.html
+          if-no-files-found: ignore
